@@ -1,0 +1,24 @@
+from main.py
+
+# class ContractorInfoResponse(BaseModel):
+#     info: List[str]
+
+
+#Navigation through pages   
+
+# @app.get("/", response_class=HTMLResponse)
+# def read_root():
+#     return open("static/indexorg.html").read()
+
+# @app.get("/dashboard", response_class=HTMLResponse)
+# def read_root():
+#     return open("static/dashboard.html").read()
+
+
+# @app.get("/report", response_class=HTMLResponse)
+# def read_root():
+#     return open("static/report.html").read()
+
+# @app.get("/qualification", response_class=HTMLResponse)
+# def read_root():
+#     return open("static/qualification.html").read()

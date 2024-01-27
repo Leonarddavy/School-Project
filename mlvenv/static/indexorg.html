@@ -1,0 +1,391 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Ml_Trial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <style>
+        .input-field label {
+            color: #999;
+        }
+
+        .input-field input[type=text]:focus+label,
+        .input-field input[type=password]:focus+label {
+            color: #000;
+        }
+
+        .input-field input[type=text]:focus,
+        .input-field input[type=password]:focus {
+            border-bottom: 1px solid #000;
+            box-shadow: 0 1px 0 0 #000;
+        }
+
+        .input-field input[type=text].valid,
+        .input-field input[type=password].valid {
+            border-bottom: 1px solid #2196F3;
+            box-shadow: 0 1px 0 0 #2196F3;
+        }
+
+        .input-field input[type=text].invalid,
+        .input-field input[type=password].invalid {
+            border-bottom: 1px solid #F44336;
+            box-shadow: 0 1px 0 0 #F44336;
+        }
+
+        .input-field .prefix.active {
+            color: #000;
+        }
+
+        /* Input : switch */
+        .switch {
+            margin-top: 7px;
+        }
+
+        .switch label .lever {
+            margin: 0 7px;
+        }
+
+        .switch label input[type="checkbox"]:checked+.lever {
+            background-color: #ADD0EB;
+        }
+
+        .switch label input[type="checkbox"]:checked+.lever::after {
+            background-color: #4FB0FD;
+        }
+
+        .login-body {
+            background-color: #062e63;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .input-cart {
+            min-height: 400px;
+            border-top: 3px solid #2196F3;
+            margin-top: 80px;
+            margin-bottom: 100px;
+        }
+
+        .login {
+            margin-top: 25px;
+            border-right: 1px solid #ddd;
+        }
+
+        .policy {
+            visibility: hidden;
+        }
+
+        .signupForm {
+            display: none;
+        }
+
+        .signup {
+            margin-top: 25px;
+        }
+
+        .signup-toggle {
+            cursor: pointer;
+            margin-top: 140px;
+        }
+
+        .login h4,
+        .signup h4 {
+            font-weight: 200;
+        }
+
+        .legal {
+            border-top: 1px solid #ddd;
+        }
+
+        .email label {
+            margin-left: 11px;
+        }
+
+        .policy {
+            font-size: 13px;
+        }
+
+        .main-title {
+            font-family: pacifico;
+        }
+
+        .highlight {
+            border-collapse: collapse;
+        }
+        .highlight td {
+            padding: 10px;
+            border-bottom: 2px solid #5cadf0;
+            border-right: 1px solid #8bbce4;
+            font-size: small;
+        }
+
+    </style>
+</head>
+
+<body class="login-body">
+    <div class="row">
+        <div class="input-cart col s12 m10 push-m1 z-depth-2 grey lighten-5">
+            <div class="col s12 m5 login">
+                <h4 class="center">Tendor allocation</h4>
+                <br>
+                <form onsubmit="predict(); return false;" autocomplete="off">
+                    <div class="row">
+                        <div class="input-field">
+                            <input type="text" id="inputData" name="username" class="validate" required="required"
+                                placeholder="Contractor name">
+
+                            <label for="inputData">
+                                <i class="material-icons">person</i> </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <button type="submit" name="login"
+                                class="btn waves-effect waves-light blue right">LAUNCH</button>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="input-field">
+                            <input type="text" id="name" name="username" class="validate" placeholder="Contractor"
+                                readonly>
+                            <label for="user">
+                                <i class="material-icons">person</i> </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="switch col s6">
+                        </div>
+
+                    </div>
+                    <script>
+                        function predict() {
+                            const inputData = document.getElementById("inputData").value;
+
+                            const requestData = { data: [inputData] };
+
+                            fetch('http://127.0.0.1:8000/predict', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(requestData)
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Handle the response data 
+                                    console.log(data);
+                                    // Update the HTML page with the prediction result
+                                    document.getElementById("name").value = data.prediction;
+
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+
+                        }
+                    </script>
+                </form>
+            </div>
+            <!-- Contractor-info -->
+            <div class="col s12 m7 signup">
+                <div class="signupForm">
+                    <h4 class="center">Contractor-info</h4>
+                    <br>
+                    <form onsubmit="getinfo(); return false;" name="signup" method="#" autocomplete="off">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <input type="text" id="contractorinfo" name="namepicked" class="validate"
+                                    required="required" placeholder="Enter Contractor">
+                                <label for="contractorinfo">
+                                    <i class="material-icons">person_add</i>
+                                </label>
+                            </div>
+
+                        </div>
+                        <section style="margin: 20px;">
+                            <h1
+                                style="font-size: 15px; color: #2196F3; text-transform: uppercase; font-weight: 300; text-align: center; margin-bottom: 15px;">
+                                CONTRACTOR RECORDS
+                            </h1>
+                            <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> -->
+                            <div class="tbl-header" style="background-color: #4FB0FD;">
+                                <table cellpadding="0" cellspacing="0" border="0" id="resultTable"
+                                    style="width: 100%; table-layout: fixed;">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                County</th>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                IFMIS</th>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                Project</th>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                Contract period</th>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                Completion status</th>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                Quality</th>
+                                            <th
+                                                style="padding: 20px 15px; text-align: left; font-weight: 400; font-size: 12px; color: black;">
+                                                Contractor</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                            <div class="tbl-content"
+                                style="height: 300px; overflow-x: auto; margin-top: 0px; border: 1px solid rgba(0, 0, 128, 0.1);">
+                                <table cellpadding="0" cellspacing="0" border="0" id="resultTable" class="highlight"
+                                    style="width: 100%; table-layout: fixed;">
+                                    <tbody>
+
+                                    <tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <script>
+                            $(window).on("load resize", function () {
+                                var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+                                $('.tbl-header').css({ 'padding-right': scrollWidth });
+                            }).resize();
+                        </script>
+                        <!-- <script>                          
+                            function myFunction() {
+                              var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2;
+                              input = document.getElementById("myInput");
+                              filter = input.value.toUpperCase();
+                              table = document.getElementById("resultTable");
+                              tr = table.getElementsByTagName("tr");
+                              for (i = 0; i < tr.length; i++) {
+                                td1 = tr[i].getElementsByTagName("td")[2];
+                                td2 = tr[i].getElementsByTagName("td")[6];
+                                if (td1 && td2) {
+                                  txtValue1 = td1.textContent || td1.innerText;
+                                  txtValue2 = td2.textContent || td2.innerText;
+                                  if (txtValue1.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = "";
+                                  } else {
+                                    tr[i].style.display = "none";
+                                  }
+                                }       
+                              }
+                            }
+                            </script> -->
+
+
+                        <div class="row">
+                            <button type="submit" name="btn-signup"
+                                class="btn blue right waves-effect waves-light">Inquire</button>
+                        </div>
+                        <script>
+                            function getinfo() {
+                                const contractorinfo = document.getElementById("contractorinfo").value;
+
+                                const requestData = { contractorinfo };
+
+                                fetch('http://127.0.0.1:8000/getinfo', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(requestData)
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Handle the response data 
+                                        console.log(data);
+                                        // Update the HTML table with the rows
+                                        const tableBody = document.querySelector('#resultTable tbody');
+                                        tableBody.innerHTML = ''; // Clear existing rows
+
+                                        data.rows.forEach(rowData => {
+                                            const row = document.createElement('tr');
+
+                                            const countyCell = document.createElement('td');
+                                            countyCell.textContent = rowData.county;
+                                            row.appendChild(countyCell);
+
+                                            const ifmisCell = document.createElement('td');
+                                            ifmisCell.textContent = rowData.ifmis;
+                                            row.appendChild(ifmisCell);
+
+                                            const projectCell = document.createElement('td');
+                                            projectCell.textContent = rowData.project;
+                                            row.appendChild(projectCell);
+
+                                            const contractPeriodCell = document.createElement('td');
+                                            contractPeriodCell.textContent = rowData.contract_period;
+                                            row.appendChild(contractPeriodCell);
+
+                                            const completionStatusCell = document.createElement('td');
+                                            completionStatusCell.textContent = rowData.completion_status;
+                                            row.appendChild(completionStatusCell);
+
+                                            const qualityCell = document.createElement('td');
+                                            qualityCell.textContent = rowData.quality;
+                                            row.appendChild(qualityCell);
+
+                                            const contractorCell = document.createElement('td');
+                                            contractorCell.textContent = rowData.contractor;
+                                            row.appendChild(contractorCell);
+
+                                            tableBody.appendChild(row);
+                                        });
+
+
+                                        // Add CSS class to the table for styling
+                                        const resultTable = document.querySelector('#resultTable');
+                                        resultTable.classList.add('highlight');
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                    });
+
+                            }
+                        </script>
+
+                    </form>
+
+                </div>
+                <div class="signup-toggle center">
+                    <h4 class="center">Contractor-info! <a href="#!">Info!</a></h4>
+                </div>
+            </div>
+            <div class="col s12">
+                <br>
+                <div class="legal center">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    jQuery(document).ready(function ($) {
+        $(".dropdown-button").dropdown();
+        $('.modal').modal();
+        $(".signup-toggle").click(function () {
+            $(this).hide();
+            $(".signupForm").show(300);
+            $(".policy").css("visibility", "visible");
+        });
+    });
+
+</script>
+
+</html>
