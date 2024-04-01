@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> Home page </title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
+  transition: all 0.3s ease;
+}
+:root{
+  --white: #fff;
+  --black: #24292d;
+  --nav-main:#3A9943;
+  --switchers-main: #7be384;
+  --light-bg: #F0F8FF;
+}
+nav{
+  position: fixed;
+  height: 70px;
+  width: 100%;
+  background: var(--nav-main);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+nav .navbar{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: 1300px;
+  margin: auto;
+  padding: 0 30px;
+  justify-content: space-between;
+}
+nav .navbar a{
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+}
+ .navbar .nav-links{
+   display: flex;
+ }
+ .navbar .nav-links li{
+   margin: 0 8px;
+   list-style: none;
+   display: flex;
+ }
+ .navbar .nav-links a{
+   font-size: 18px;
+   font-weight: 400;
+   opacity: 1;
+ }
+  .navbar .nav-links a:hover{
+    opacity: 1;
+  }
+ .navbar .appearance{
+   display: flex;
+   align-items: center;
+ }
+
+ .appearance .color-icon{
+   position: relative;
+ }
+ .appearance .icons{
+   width: 70px;
+   height: 50px;
+   margin-left: 14px;
+ }
+ .appearance .color-box{
+   position: absolute;
+   bottom: -133px;
+   right: 0;
+   min-height: 100px;
+   background: var(--white);
+   padding: 16px 20px 20px 20px;
+   border-radius: 6px;
+   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+   opacity: 0;
+   pointer-events: none;
+ }
+ .color-box::before{
+   content: '';
+   position: absolute;
+   top: -10px;
+   right: 20px;
+   height: 30px;
+   width: 30px;
+   border-radius: 50%;
+   background: var(--white);
+   transform: rotate(45deg);
+ }
+ .color-icon.open .color-box{
+   opacity: 1;
+   pointer-events: auto;
+ }
+  .color-icon.open .arrow{
+    transform: rotate(-180deg);
+  }
+ .appearance .color-box h3{
+   font-size: 16px;
+   font-weight: 600;
+   display: block;
+   color: var(--nav-main);
+   text-align: left;
+   white-space: nowrap;
+   margin-bottom: 10px;
+ }
+.appearance .color-box .color-switchers{
+   display: flex;
+}
+.color-box .color-switchers .btn{
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  background: #3A9943;
+
+}
+
+.home-content{
+  height: 100vh;
+  width: 100%;
+  background: var(--light-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 60px;
+}
+.home-content h2{
+  color: var(--black);
+  font-size: 50px;
+}
+.home-content h3{
+  color: var(--black);
+  font-size: 42px;
+  margin-top: -8px;
+}
+.home-content h3 span{
+  color: var(--nav-main);
+}
+.home-content h3 span.darkMode{
+  color: var(--black);
+}
+.home-content p{
+  color: var(--black);
+  font-size: 16px;
+  width: 45%;
+  text-align: justify;
+  margin: 4px 0 30px 0;
+}
+.home-content a{
+  color: #fff;
+  font-size: 20px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  background: var(--nav-main);
+}
+.home-content a i{
+  transform: rotate(45deg);
+  font-size: 16px;
+}
+.home-content a:hover{
+  background: var(--switchers-main);
+}
+@media (max-width: 1050px) {
+  .home-content p{
+    width: 70%;
+  }
+}
+    </style>
+   </head>
+<body>
+  <nav>
+    <div class="navbar">
+      <div class="logo"><a href="#">Tender System</a></div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="/choose">Signup</a></li>
+      </ul>
+    
+    </div>
+  </nav>
+
+  <section class="home-content">
+    <div class="texts">
+      <h2 class="text">Future-Proof Tenders, </h2>
+      <h3 class="text">that <span>Starts Today...</span></h3>
+      <p>
+        
+Unleash the full potential of procurement: Embrace a tech-driven tender system for unparalleled transparency, streamlined efficiency, and maximized value in every bid.</p>
+      <div class="button">
+      <a href="/home_choose">Login
+      <i class="fas fa-location-arrow"></i></a>
+    </div>
+  </section>
+
+  <script>
+  // Js code to make color box enable or disable
+  let colorIcons = document.querySelector(".color-icon"),
+  icons = document.querySelector(".color-icon .icons");
+
+  icons.addEventListener("click" , ()=>{
+    colorIcons.classList.toggle("open");
+  })
+
+  // getting all .btn elements
+  let buttons = document.querySelectorAll(".btn");
+
+  for (var button of buttons) {
+    button.addEventListener("click", (e)=>{ //adding click event to each button
+      let target = e.target;
+
+      let open = document.querySelector(".open");
+      if(open) open.classList.remove("open");
+
+      document.querySelector(".active").classList.remove("active");
+      target.classList.add("active");
+
+      //passing particular value to a particular root variable
+      root.style.setProperty("--white", color[0]);
+      root.style.setProperty("--black", color[1]);
+      root.style.setProperty("--nav-main", color[2]);
+      root.style.setProperty("--switchers-main", color[3]);
+      root.style.setProperty("--light-bg", color[4]);
+
+      let iconName = target.className.split(" ")[2]; //getting the class name of icon
+
+      let coloText = document.querySelector(".home-content span");
+
+    });
+  }
+ </script>
+</body>
+</html>

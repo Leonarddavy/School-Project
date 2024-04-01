@@ -128,9 +128,14 @@
       display: flex;
       width: 100%;
     }
-
+    .users {
+      display: flex;
+      flex-wrap: wrap;
+      /* Allow the cards to wrap to the next row */
+    }
     .users .card {
-      width: 25%;
+      width: calc(33.3333% - 20px);
+      /* Adjust width to accommodate three cards in a row with some spacing */
       margin: 10px;
       background: #fff;
       text-align: center;
@@ -252,6 +257,25 @@
       color: #fff;
       transition: 0.5rem;
     }
+    .custom-styling {
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 8px;
+      padding: 7px;
+      cursor: pointer;
+      border-radius: 10px;
+      background:  #4AD489;
+      border: 1px solid #4AD489;
+    }
+    
+    .custom-styling:hover {
+      background: transparent;
+      color: #4AD489;
+      transition: 0.5s;
+    }
+    
   </style>
 </head>
 
@@ -276,7 +300,7 @@
             <i class="fas fa-chart-bar"></i>
             <span class="nav-item">Qualification</span>
           </a></li>
-        <li><a href="#" class="logout">
+        <li><a href="/" class="logout">
             <i class="fas fa-sign-out-alt"></i>
             <span class="nav-item">Log out</span>
           </a></li>
@@ -286,6 +310,23 @@
 
     <section class="main">
       <div class="users">
+
+        <div class="card">
+          <br>
+          <br>
+          <i class="fas fa-map-marker-alt"></i>
+
+          <h4>Counties</h4>
+          <div class="per">
+            <table>
+            </table>
+          </div>
+          <button onclick="countycount()">No. of Counties </button>
+          <p id="countycount" class="custom-styling"></p>
+
+
+        </div>
+
         <div class="card">
           <br>
           <br>
@@ -296,8 +337,12 @@
             <table>
             </table>
           </div>
-          <button>No. of Contractors </button>
+          <button onclick="contractorcount()">No. of Contractors </button>
+          <p id="contractcount" class="custom-styling"></p>
+
+
         </div>
+        
         <div class="card">
           <br>
           <br>
@@ -307,18 +352,20 @@
             <table>
             </table>
           </div>
-          <button>No. of Projects</button>
+          <button onclick="projectcount()">No. of Projects</button>
+          <p id="projectcount" class="custom-styling"></p>
         </div>
         <div class="card">
           <br>
           <br>
           <i class="fas fa-wrench"></i>
-          <h4>Services</h4>
+          <h4>Category</h4>
           <div class="per">
             <table>
             </table>
           </div>
-          <button>Services</button>
+          <button onclick="servicescount()">Categories</button>
+          <p id="servicecount" class="custom-styling"></p>
         </div>
         <div class="card">
           <br>
@@ -329,68 +376,223 @@
             <table>
             </table>
           </div>
-          <button>No. of Departments</button>
+          <button onclick="deptcount()">No. of Departments</button>
+          <p id="deptcount" class="custom-styling"></p>
+        </div>
+        <div class="card">
+          <br>
+          <br>
+
+          <i class="fas fa-balance-scale"></i>
+          <h4>Tender Sum.</h4>
+          <div class="per">
+            <table>
+            </table>
+          </div>
+          <button onclick="tendersum()">Ksh..</button>
+          <p id="tendersum" class="custom-styling"></p>
+        </div>
+        <div class="card">
+          <br>
+          <br>
+
+          <i class="fas fa-handshake"></i>
+          <h4>Completed Contracts</h4>
+          <div class="per">
+            <table>
+            </table>
+          </div>
+          <button onclick="completecount()">No. of Completed Contracts</button>
+          <p id="completecount" class="custom-styling"></p>
+        </div>
+        <div class="card">
+          <br>
+          <br>
+
+          <i class="fas fa-hourglass-half"></i>
+          <h4>Pending Contracts</h4>
+          <div class="per">
+            <table>
+            </table>
+          </div>
+          <button onclick="pendingcount()">No. of Pending Contracts</button>
+          <p id="pendingcount" class="custom-styling"></p>
         </div>
       </div>
-
-      <section class="attendance">
-        <div class="attendance-list">
-          <h1>Attendance List</h1>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Depart</th>
-                <th>Date</th>
-                <th>Join Time</th>
-                <th>Logout Time</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>01</td>
-                <td>Sam David</td>
-                <td>Design</td>
-                <td>03-24-22</td>
-                <td>8:00AM</td>
-                <td>3:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr class="active">
-                <td>02</td>
-                <td>Balbina Kherr</td>
-                <td>Coding</td>
-                <td>03-24-22</td>
-                <td>9:00AM</td>
-                <td>4:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr>
-                <td>03</td>
-                <td>Badan John</td>
-                <td>testing</td>
-                <td>03-24-22</td>
-                <td>8:00AM</td>
-                <td>3:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr>
-                <td>04</td>
-                <td>Sara David</td>
-                <td>Design</td>
-                <td>03-24-22</td>
-                <td>8:00AM</td>
-                <td>3:00PM</td>
-                <td><button>View</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
     </section>
   </div>
+  <script>
+    function contractorcount() {
+      fetch('http://127.0.0.1:8000/contractorcount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("contractcount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function projectcount() {
+      fetch('http://127.0.0.1:8000/projectcount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("projectcount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function servicescount() {
+      fetch('http://127.0.0.1:8000/servicecount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("servicecount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function deptcount() {
+      fetch('http://127.0.0.1:8000/deptcount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("deptcount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+
+    function tendersum() {
+      fetch('http://127.0.0.1:8000/tendersum', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("tendersum");
+          contractorCountElement.innerHTML = data;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function completecount() {
+      fetch('http://127.0.0.1:8000/completecount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("completecount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function pendingcount() {
+      fetch('http://127.0.0.1:8000/pendingcount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("pendingcount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function countycount() {
+      fetch('http://127.0.0.1:8000/countycount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Empty object as the request body
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data 
+          console.log(data);
+          // Update the HTML page with the prediction result
+          var contractorCountElement = document.getElementById("countycount");
+          contractorCountElement.innerHTML = parseInt(data, 10);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+  </script>
+
 
 </body>
 

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Responsive Registration Form | CodingLab </title>
+    <title> Register page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -86,6 +86,8 @@
             border-color: #4AD489;
         }
 
+        
+
         form .gender-details .gender-title {
             font-size: 20px;
             font-weight: 500;
@@ -104,7 +106,7 @@
             cursor: pointer;
         }
 
-     
+
         form .button {
             height: 45px;
             margin: 35px 0
@@ -128,6 +130,8 @@
             /* transform: scale(0.99); */
             background: linear-gradient(-135deg, #c8dce9, #4AD489);
         }
+      
+
 
         @media(max-width: 584px) {
             .container {
@@ -158,6 +162,7 @@
                 flex-direction: column;
             }
         }
+
     </style>
 </head>
 
@@ -165,15 +170,17 @@
     <div class="container">
         <div class="title">Registration</div>
         <div class="content">
-            <form  onsubmit="submitForm(); return false;">
+            <form onsubmit="submitForm(); return false;">
+                <p id="error_message" style="color: red;"></p>
                 <div class="user-details">
+
                     <div class="input-box">
                         <span class="details">Full Name</span>
-                        <input type="text"   name="fullname" id="fullname"   placeholder="Enter your name" required>
+                        <input type="text" name="fullname" id="fullname" placeholder="Enter your name" required>
                     </div>
                     <div class="input-box">
                         <span class="details">Username</span>
-                        <input type="text"   name="username" id="username"   placeholder="Enter your username" required>
+                        <input type="text" name="username" id="username" placeholder="Enter your username" required>
                     </div>
                     <div class="input-box">
                         <span class="details">Email</span>
@@ -185,19 +192,43 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Password</span>
-                        <input type="text" name="password" id="password" placeholder="Enter your password" required>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                        <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()" style="position: relative; top: 10%; right: -40%; transform: translateY(-50%); width:15px; height: 15px;">
+                        <label for="showPassword" style="margin-left: -15px;  font-size: 14px; color: #555;">show password</label>
                     </div>
                     <div class="input-box">
                         <span class="details">Confirm Password</span>
-                        <input type="text" name="confirmpassword" id="confirmpassword" placeholder="Confirm your password" required>
+                        <input type="password" name="confirmpassword" id="confirmpassword"
+                            placeholder="Confirm your password" required>
+                            <input type="checkbox" id="showCPassword" onclick="toggleCPasswordVisibility()" style="position: relative; top: 10%; right: -40%; transform: translateY(-50%); width:15px; height: 15px;">
+                            <label for="showCPassword" style="margin-left: -15px;  font-size: 14px; color: #555;">show password</label>
                     </div>
                 </div>
 
                 <div class="button">
                     <input type="submit" value="Register">
                 </div>
+
+                <p>Already have an account? <a href="/login" style="color: green;">Login</a></p>
                 <script>
-                    function submitForm(){
+
+                    function togglePasswordVisibility() {
+                        const passwordInput = document.getElementById('password');
+                        const showPasswordCheckbox = document.getElementById('showPassword');
+                
+                        // Toggle the password input type between "password" and "text"
+                        passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+                    }
+                    
+                    function toggleCPasswordVisibility() {
+                        const passwordInput = document.getElementById('confirmpassword');
+                        const showPasswordCheckbox = document.getElementById('showCPassword');
+                
+                        // Toggle the password input type between "password" and "text"
+                        passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+                    }
+
+                    function submitForm() {
                         // Get form data
                         const formData = {
                             fullname: document.getElementById('fullname').value,
@@ -206,28 +237,56 @@
                             phonenumber: document.getElementById('phonenumber').value,
                             password: document.getElementById('password').value,
                             confirmpassword: document.getElementById('confirmpassword').value,
-                          
-                            
                         };
-                
+
+                        // Basic form validation
+                        if (formData.fullname.trim() === '' ||
+                            formData.username.trim() === '' ||
+                            formData.email.trim() === '' ||
+                            formData.phonenumber.trim() === '' ||
+                            formData.password.trim() === '' ||
+                            formData.confirmpassword.trim() === '') {
+                            document.getElementById("error_message").innerHTML = "All fields are required";
+                            return false;
+                        }
+
+                        if (formData.password !== formData.confirmpassword) {
+                            document.getElementById("error_message").innerHTML = "Password and confirm password do not match";
+                            return false;
+                        }
+
+                        // Additional validation can be added based on your requirements
+
                         // Send data to the server using fetch
-                        fetch('/submit-registration', { 
+                        fetch('/submit-registration', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify(formData),
                         })
-                        .then(response => response.json())
-                        .then(data => {
-                            // Handle the response from the server
-                            console.log('Server response:', data);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                            .then(response => response.json())
+                            .then(data => {
+                                // Handle the response from the server
+                                console.log('Server response:', data);
+                                if (data.message == "Registration successful") {
+                                    // Redirect to login page upon successful registration
+                                    window.location.href = '/checkmail';
+                                } else {
+                                    // Handle other response statuses (e.g., error)
+                                    document.getElementById("error_message").innerHTML = "Username already exists";
+                                    return response.json();
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+
+                        // Prevent form submission for now
+                        return false;
                     }
                 </script>
+
             </form>
         </div>
     </div>

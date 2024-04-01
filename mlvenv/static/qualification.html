@@ -276,7 +276,7 @@
                         <i class="fas fa-chart-bar"></i>
                         <span class="nav-item">Qualification</span>
                     </a></li>
-                <li><a href="#" class="logout">
+                <li><a href="/" class="logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="nav-item">Log out</span>
                     </a></li>
@@ -293,7 +293,7 @@
                         <div class="formbold-input-flex">
                             <div class="formbold-form-input">
                                 <input list="contractors" name="contractor" id="contractor"
-                                    placeholder="Contractor's Name" />
+                                    placeholder="Contractor's Name" required />
                                 <datalist id="contractors">
                                     <option value="Contractor1">
                                     <option value="Contractor2">
@@ -356,9 +356,9 @@
                                 <th>Contractor</th>
                                 <th>IFMIS</th>
                                 <th>Project</th>
-                                <th>Completed within contract period</th>
-                                <th>Completion Status</th>
-                                <th>Quality</th>
+                                <th>Category</th>
+                                <th>Department</th>
+                                <th>Tender Sum</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -372,7 +372,10 @@
                 <script>
                     function getinfo() {
                         const contractorinfo = document.getElementById("contractorinf").value;
-
+                        if (!contractorinfo.trim()) {
+                            alert('Please enter a contractor name.');
+                            return;
+                        }
                         const requestData = { contractorinfo };
 
                         fetch('http://127.0.0.1:8000/getinfo', {
@@ -397,6 +400,10 @@
                                     countyCell.textContent = rowData.county;
                                     row.appendChild(countyCell);
 
+                                    const contractorCell = document.createElement('td');
+                                    contractorCell.textContent = rowData.contractor;
+                                    row.appendChild(contractorCell);
+
                                     const ifmisCell = document.createElement('td');
                                     ifmisCell.textContent = rowData.ifmis;
                                     row.appendChild(ifmisCell);
@@ -405,21 +412,21 @@
                                     projectCell.textContent = rowData.project;
                                     row.appendChild(projectCell);
 
-                                    const contractPeriodCell = document.createElement('td');
-                                    contractPeriodCell.textContent = rowData.contract_period;
-                                    row.appendChild(contractPeriodCell);
+                                    const categoryCell = document.createElement('td');
+                                    categoryCell.textContent = rowData.category;
+                                    row.appendChild(categoryCell);
 
-                                    const completionStatusCell = document.createElement('td');
-                                    completionStatusCell.textContent = rowData.completion_status;
-                                    row.appendChild(completionStatusCell);
+                                    const departmentCell = document.createElement('td');
+                                    departmentCell.textContent = rowData.department;
+                                    row.appendChild(departmentCell);
 
-                                    const qualityCell = document.createElement('td');
-                                    qualityCell.textContent = rowData.quality;
-                                    row.appendChild(qualityCell);
 
-                                    const contractorCell = document.createElement('td');
-                                    contractorCell.textContent = rowData.contractor;
-                                    row.appendChild(contractorCell);
+
+                                    const tendersumCell = document.createElement('td');
+                                    tendersumCell.textContent = rowData.tendersum;
+                                    row.appendChild(tendersumCell);
+
+
 
                                     tableBody.appendChild(row);
                                 });

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Responsive Registration Form | CodingLab </title>
+    <title>Login page </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -128,6 +128,7 @@
             /* transform: scale(0.99); */
             background: linear-gradient(-135deg, #c8dce9, #4AD489);
         }
+        
 
         @media(max-width: 584px) {
             .container {
@@ -165,7 +166,8 @@
     <div class="container">
         <div class="title">Login</div>
         <div class="content">
-            <form method="post" onsubmit="login(); return false;">
+            <form onsubmit="login(); return false;">
+                <p id="error_message" style="color: red;"></p>
                 <div class="user-details">
                     <div class="input-box">
                         <span class="details">Username</span>
@@ -173,14 +175,34 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Password</span>
-                        <input type="text" name="password" id="password" placeholder="Enter your password" required>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                        <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()"
+                        style="position: relative; top: 10%; right: -40%; transform: translateY(-50%); width:15px; height: 15px;">
+                    <label for="showPassword" style="margin-left: -15px;  font-size: 14px; color: #555;">show
+                        password</label>
                     </div>
                 </div>
 
                 <div class="button">
                     <input type="submit" value="login">
                 </div>
+                
+                <a href="/reset" style="color: green;">Forgot Password!</a>
+                <br><br>
+                <p>Don't have an account? <a href="/register" style="color: green;">Register</a></p>
+
+                
                 <script>
+                    function togglePasswordVisibility() {
+                        const passwordInput = document.getElementById('password');
+                        const showPasswordCheckbox = document.getElementById('showPassword');
+
+                        // Toggle the password input type between "password" and "text"
+                        passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+                    }
+
+
+
                     function login(){
                         // Get form data
                         const formData = {
@@ -188,6 +210,13 @@
                             username: document.getElementById('username').value,
                             password: document.getElementById('password').value  
                         };
+
+                        if (
+                        formData.username.trim() === '' ||
+                        formData.password.trim() === '') {
+                        document.getElementById("error_message").innerHTML = "All fields are required";
+                        return false;
+                    }
                 
                         // Send data to the server using fetch
                         fetch('/login', { 
@@ -201,6 +230,14 @@
                         .then(data => {
                             // Handle the response from the server
                             console.log('Server response:', data);
+                            if (data.message == "Login succesfull") {
+                                // Redirect to login page upon successful registration
+                                window.location.href = '/dashboard'; 
+                            } else {
+                                // Handle other response statuses (e.g., error)
+                                document.getElementById("error_message").innerHTML = "Login failed";
+                                return response.json();
+                            }
                         })
                         .catch(error => {
                             console.error('Error:', error);

@@ -282,7 +282,7 @@
                         <i class="fas fa-chart-bar"></i>
                         <span class="nav-item">Qualification</span>
                     </a></li>
-                <li><a href="#" class="logout">
+                <li><a href="/" class="logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="nav-item">Log out</span>
                     </a></li>
@@ -295,9 +295,9 @@
                 <h1>Tendor Records</h1>
 
                 <div class="formbold-form-wrapper">
-                    <form onsubmit="predict(); return false;">
+                    <form onsubmit="sendinfo();  return false;">
 
-
+            
                         <div class="formbold-input-flex">
 
                             <div class="formbold-form-input">
@@ -306,7 +306,7 @@
                                 <input list="countys" name="county" id="county" placeholder="County" />
                                 <datalist id="countys">
                                     <option value="Bomet">
-                                    
+
                                         <!-- Add more options as needed -->
                                 </datalist>
                                 <label for="county" class="formbold-form-label">County</label>
@@ -330,6 +330,11 @@
 
                                 <label for="ifmis" class="formbold-form-label">IFMIS</label>
                             </div>
+                            <div class="formbold-form-input">
+                                <input list="department" name="department" id="department" placeholder="Department" />
+
+                                <label for="department" class="formbold-form-label">Department</label>
+                            </div>
 
                             <div class="formbold-form-input">
                                 <input list="projects" name="project" id="project" placeholder="Project" />
@@ -342,19 +347,30 @@
                                 <label for="project" class="formbold-form-label">Project</label>
                             </div>
 
+
                         </div>
 
                         <div class="formbold-input-flex" style="margin-top: 20%;">
+
+                            <div class="formbold-form-input">
+                                <input list="categoty" name="categoty" id="category" placeholder="Category" />
+                                <label for="category" class="formbold-form-label">Category</label>
+                            </div>
+
+                            <div class="formbold-form-input">
+                                <input list="tendersum" name="tendersum" id="tendersum" placeholder="Tendersum" />
+                                <label for="tendersum" class="formbold-form-label">Tender Sum</label>
+                            </div>
+
                             <div class="formbold-form-input">
                                 <input list="contracts_period" name="contract_period" id="contract_period"
                                     placeholder="Contract Period" />
                                 <datalist id="contracts_period">
                                     <option value="Yes">
                                     <option value="No">
-
-                                        <!-- Add more options as needed -->
                                 </datalist>
-                                <label for="contractor" class="formbold-form-label">Completion within Contract Period</label>
+                                <label for="contractor" class="formbold-form-label">Completion within Contract
+                                    Period</label>
                             </div>
 
 
@@ -388,8 +404,99 @@
                         <button type="submit" class="formbold-btn" style="margin-top: 20%;">
                             Send
                         </button>
+                        <br>
+                        <br>
+                        <p id="execution_message" style="color: #4AD489;"></p>
+
 
                     </form>
+                    <script>
+                        function validateForm() {
+                            const county = document.getElementById('county').value;
+                            const contractor = document.getElementById('contractor').value;
+                            const ifmis = document.getElementById('ifmis').value;
+                            const department = document.getElementById('department').value;
+                            const project = document.getElementById('project').value;
+                            const category = document.getElementById('category').value;
+                            const tendersum = document.getElementById('tendersum').value;
+                            const contract_period = document.getElementById('contract_period').value;
+                            const completion_status = document.getElementById('completion_status').value;
+                            const quality = document.getElementById('quality').value;
+                    
+                            if (
+                                county.trim() === '' ||
+                                contractor.trim() === '' ||
+                                ifmis.trim() === '' ||
+                                department.trim() === '' ||
+                                project.trim() === '' ||
+                                category.trim() === '' ||
+                                tendersum.trim() === '' ||
+                                contract_period.trim() === '' ||
+                                completion_status.trim() === '' ||
+                                quality.trim() === ''
+                            ) {
+                                alert('Please fill in all the required fields.');
+                                return false;
+                            }
+                    
+                            // You can add additional validation logic here if needed
+                    
+                            return true;
+                        }
+
+                        function sendinfo() {
+                            if (validateForm()){
+                            // Get form data
+                            const formData = {
+                                county: document.getElementById('county').value,
+                                contractor: document.getElementById('contractor').value,
+                                ifmis: document.getElementById('ifmis').value,
+                                department: document.getElementById('department').value,
+                                project: document.getElementById('project').value,
+                                category: document.getElementById('category').value,
+                                tender_sum: document.getElementById('tendersum').value,
+                                contract_period: document.getElementById('contract_period').value,
+                                completion_status: document.getElementById('completion_status').value,
+                                quality: document.getElementById('quality').value
+                            };
+
+                            // Send data to the server using fetch with the correct endpoint "/sendinfo"
+                            fetch('/sendinfo', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(formData),
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    // Handle the response from the server
+                                    console.log('Server response:', data);
+                                    if (data.message === "sent successfully") {
+                                        // Handle success, maybe redirect or show a success message
+                                        document.getElementById("execution_message").innerHTML = "Data sent successfully";
+                                    } else if (data.message === "records already exist") {
+                                        // Handle case where records already exist
+                                        document.getElementById("execution_message").innerHTML = "Records already exist";
+                                    } else if (data.message === "failed to send data") {
+                                        // Handle case where data submission failed
+                                        document.getElementById("execution_message").innerHTML = "Failed to send records";
+                                    } else {
+                                        // Handle other cases
+                                        alert('Unexpected response from the server');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                        }
+                    }
+                    </script>
                 </div>
             </div>
 
